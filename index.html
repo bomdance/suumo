@@ -1,184 +1,848 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SUUMO | 숨어있는 공간을 빌리다, 수머</title>
   <style>
+    :root{
+      --green:#198a63;
+      --green-dark:#116c4d;
+      --green-light:#eef7f2;
+      --text:#222;
+      --sub:#666;
+      --line:#e7e7e7;
+      --card:#ffffff;
+      --bg:#fafafa;
+      --max:1200px;
+    }
+
     *{box-sizing:border-box}
+
+    html{
+      scroll-behavior:smooth;
+    }
+
     body{
       margin:0;
-      font-family:Arial, "Noto Sans KR", sans-serif;
-      color:#222;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      color:var(--text);
       background:#fff;
+      line-height:1.6;
     }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    .wrap{
+      width:min(var(--max), calc(100% - 40px));
+      margin:0 auto;
+    }
+
     header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      background:rgba(255,255,255,0.96);
+      backdrop-filter:blur(8px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .header-inner{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      padding:22px 8%;
-      border-bottom:1px solid #eee;
-      position:sticky;
-      top:0;
-      background:white;
+      gap:20px;
+      padding:18px 0;
+      flex-wrap:wrap;
     }
-    .logo{
-      font-size:30px;
-      font-weight:800;
-      color:#1d1d1d;
+
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+      min-width:180px;
     }
-    nav a{
-      margin-left:24px;
-      text-decoration:none;
-      color:#333;
+
+    .brand-title{
+      font-size:40px;
+      font-weight:900;
+      letter-spacing:0.5px;
+      line-height:1;
+    }
+
+    .brand-sub{
+      font-size:12px;
+      color:var(--green);
+      font-weight:700;
+    }
+
+    nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:20px;
+      justify-content:flex-end;
+      align-items:center;
       font-size:15px;
+      color:#333;
     }
+
+    nav a:hover{
+      color:var(--green);
+    }
+
     .hero{
-      padding:90px 8%;
-      background:linear-gradient(135deg,#f7faf8,#eaf5ef);
+      background:linear-gradient(135deg,#f6fbf8 0%, #edf6f1 100%);
+      padding:70px 0;
     }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr 0.85fr;
+      gap:40px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      color:var(--green);
+      font-size:15px;
+      font-weight:700;
+      margin-bottom:14px;
+    }
+
     .hero h1{
-      font-size:54px;
-      line-height:1.2;
+      font-size:64px;
+      line-height:1.15;
       margin:0 0 20px;
+      letter-spacing:-1px;
     }
+
     .hero h1 span{
-      color:#16835d;
+      color:var(--green);
     }
+
     .hero p{
-      font-size:20px;
-      line-height:1.7;
+      font-size:28px;
       color:#555;
+      margin:0 0 28px;
+      line-height:1.7;
     }
+
+    .hero-buttons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+    }
+
     .btn{
       display:inline-block;
-      margin-top:22px;
-      margin-right:12px;
       padding:15px 28px;
-      border-radius:30px;
-      text-decoration:none;
-      background:#16835d;
-      color:white;
+      border-radius:999px;
+      font-size:17px;
+      font-weight:700;
+      transition:0.2s ease;
     }
-    .btn.sub{
-      background:white;
-      color:#16835d;
-      border:1px solid #16835d;
+
+    .btn.primary{
+      background:var(--green);
+      color:#fff;
     }
-    section{
-      padding:70px 8%;
+
+    .btn.primary:hover{
+      background:var(--green-dark);
     }
-    section h2{
-      font-size:32px;
-      margin-bottom:30px;
-    }
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:20px;
-    }
-    .card{
-      padding:28px;
-      border:1px solid #e8e8e8;
-      border-radius:16px;
+
+    .btn.secondary{
       background:#fff;
-      box-shadow:0 4px 18px rgba(0,0,0,0.04);
+      color:var(--green);
+      border:1.5px solid var(--green);
     }
-    .card h3{
-      margin-top:0;
+
+    .btn.secondary:hover{
+      background:#f7fffb;
     }
-    footer{
-      padding:35px 8%;
-      border-top:1px solid #eee;
-      color:#777;
+
+    .hero-visual{
+      background:linear-gradient(160deg,#2b9b74 0%, #146448 100%);
+      border-radius:28px;
+      padding:30px;
+      min-height:460px;
+      position:relative;
+      overflow:hidden;
+      box-shadow:0 20px 40px rgba(17,108,77,0.18);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .hero-visual::before{
+      content:"";
+      position:absolute;
+      width:280px;
+      height:280px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.08);
+      top:-40px;
+      right:-40px;
+    }
+
+    .hero-visual::after{
+      content:"";
+      position:absolute;
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.06);
+      bottom:-50px;
+      left:-30px;
+    }
+
+    .visual-content{
+      position:relative;
+      z-index:1;
+      width:100%;
+      text-align:center;
+      color:#fff;
+    }
+
+    .keyhole-box{
+      width:220px;
+      margin:0 auto 24px;
+      position:relative;
+    }
+
+    .keyhole-top{
+      width:220px;
+      height:220px;
+      background:#fff6e9;
+      border-radius:50%;
+      margin:0 auto;
+      position:relative;
+      box-shadow:inset 0 0 0 10px rgba(255,255,255,0.35);
+    }
+
+    .keyhole-bottom{
+      width:110px;
+      height:160px;
+      background:#fff6e9;
+      margin:-20px auto 0;
+      border-radius:0 0 24px 24px;
+      clip-path:polygon(0 0,100% 0,100% 100%,50% 86%,0 100%);
+      position:relative;
+    }
+
+    .room-dot{
+      position:absolute;
+      left:50%;
+      transform:translateX(-50%);
+      background:#d8b06a;
+    }
+
+    .lamp-line{
+      width:3px;
+      height:54px;
+      top:22px;
+    }
+
+    .lamp-head{
+      width:34px;
+      height:24px;
+      border-radius:0 0 20px 20px;
+      top:68px;
+    }
+
+    .plant-pot{
+      width:42px;
+      height:28px;
+      background:#bf8a55;
+      border-radius:6px 6px 10px 10px;
+      bottom:22px;
+    }
+
+    .leaf{
+      position:absolute;
+      width:18px;
+      height:34px;
+      background:#7aaa59;
+      border-radius:20px 20px 4px 20px;
+      bottom:42px;
+      left:50%;
+      transform-origin:bottom center;
+    }
+
+    .leaf1{ transform:translateX(-18px) rotate(-28deg); }
+    .leaf2{ transform:translateX(0px) rotate(18deg); }
+    .leaf3{ transform:translateX(-4px) rotate(-2deg); height:40px; }
+
+    .visual-kicker{
       font-size:14px;
+      letter-spacing:2px;
+      opacity:0.85;
+      margin-bottom:10px;
     }
-    @media(max-width:800px){
-      nav{display:none}
-      .hero h1{font-size:38px}
-      .cards{grid-template-columns:1fr}
+
+    .visual-copy{
+      font-size:28px;
+      font-weight:800;
+      line-height:1.5;
+      margin-bottom:10px;
+    }
+
+    .visual-sub{
+      font-size:15px;
+      opacity:0.9;
+      letter-spacing:1px;
+    }
+
+    section{
+      padding:80px 0;
+    }
+
+    .section-head{
+      margin-bottom:28px;
+    }
+
+    .section-head h2{
+      font-size:42px;
+      margin:0 0 10px;
+      line-height:1.2;
+    }
+
+    .section-head p{
+      margin:0;
+      color:var(--sub);
+      font-size:18px;
+    }
+
+    .grid-3{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:22px;
+    }
+
+    .grid-4{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:22px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:28px;
+      box-shadow:0 10px 24px rgba(0,0,0,0.04);
+    }
+
+    .icon{
+      width:58px;
+      height:58px;
+      border-radius:50%;
+      background:var(--green-light);
+      color:var(--green);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:28px;
+      margin-bottom:18px;
+    }
+
+    .card h3{
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.3;
+    }
+
+    .card p{
+      margin:0;
+      color:var(--sub);
+      font-size:17px;
+    }
+
+    .category-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:24px;
+      min-height:200px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      box-shadow:0 10px 24px rgba(0,0,0,0.04);
+    }
+
+    .category-top{
+      width:100%;
+      height:88px;
+      border-radius:16px;
+      background:linear-gradient(135deg,#f0f7f3,#dcefe5);
+      margin-bottom:16px;
+    }
+
+    .category-card h3{
+      margin:0 0 8px;
+      font-size:26px;
+    }
+
+    .category-card p{
+      margin:0;
+      color:var(--sub);
+      font-size:16px;
+    }
+
+    .post-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 10px 24px rgba(0,0,0,0.04);
+    }
+
+    .post-thumb{
+      height:150px;
+      background:linear-gradient(135deg,#edf7f1,#d7eadf);
+    }
+
+    .post-body{
+      padding:22px;
+    }
+
+    .post-body h3{
+      margin:0 0 8px;
+      font-size:26px;
+    }
+
+    .post-body p{
+      margin:0 0 14px;
+      color:var(--sub);
+      font-size:16px;
+    }
+
+    .more{
+      color:var(--green);
+      font-weight:700;
+      font-size:15px;
+    }
+
+    .case-box{
+      background:linear-gradient(135deg,#f4faf6,#edf7f2);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:30px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:28px;
+      align-items:center;
+    }
+
+    .case-image{
+      min-height:280px;
+      border-radius:22px;
+      background:linear-gradient(135deg,#d8ece1,#f6fbf8);
+    }
+
+    .case-text .label{
+      display:inline-block;
+      background:#dff1e8;
+      color:var(--green-dark);
+      font-size:13px;
+      font-weight:700;
+      padding:6px 12px;
+      border-radius:999px;
+      margin-bottom:14px;
+    }
+
+    .case-text h3{
+      margin:0 0 12px;
+      font-size:34px;
+    }
+
+    .case-text p{
+      margin:0;
+      color:var(--sub);
+      font-size:18px;
+    }
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:22px;
+    }
+
+    .step{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:28px;
+      box-shadow:0 10px 24px rgba(0,0,0,0.04);
+    }
+
+    .step-num{
+      color:var(--green);
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:1px;
+      margin-bottom:12px;
+    }
+
+    .step h3{
+      margin:0 0 10px;
+      font-size:28px;
+    }
+
+    .step p{
+      margin:0;
+      color:var(--sub);
+      font-size:16px;
+    }
+
+    footer{
+      background:#f8f8f8;
+      border-top:1px solid var(--line);
+      padding:40px 0;
+      margin-top:10px;
+    }
+
+    .footer-inner{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+    }
+
+    .footer-brand{
+      font-size:30px;
+      font-weight:900;
+      margin-bottom:8px;
+    }
+
+    .footer-text{
+      color:var(--sub);
+      font-size:15px;
+    }
+
+    .footer-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:16px;
+      color:#555;
+      font-size:15px;
+    }
+
+    @media (max-width: 1024px){
+      .hero-grid,
+      .case-box,
+      .grid-4{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .grid-3,
+      .steps{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:52px;
+      }
+
+      .hero p{
+        font-size:24px;
+      }
+    }
+
+    @media (max-width: 760px){
+      .header-inner{
+        align-items:flex-start;
+      }
+
+      nav{
+        justify-content:flex-start;
+        gap:14px;
+        font-size:14px;
+      }
+
+      .hero-grid,
+      .case-box,
+      .grid-4{
+        grid-template-columns:1fr;
+      }
+
+      .hero{
+        padding:50px 0;
+      }
+
+      .hero h1{
+        font-size:42px;
+      }
+
+      .hero p{
+        font-size:20px;
+      }
+
+      .section-head h2{
+        font-size:34px;
+      }
+
+      .card h3,
+      .category-card h3,
+      .post-body h3,
+      .case-text h3,
+      .step h3{
+        font-size:24px;
+      }
+
+      .hero-visual{
+        min-height:400px;
+      }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">SUUMO</div>
-  <nav>
-    <a href="#about">수머 소개</a>
-    <a href="#space">공간 찾기</a>
-    <a href="#story">공간대여 이야기</a>
-    <a href="#case">공간 사례</a>
-    <a href="#contact">문의</a>
-  </nav>
-</header>
+  <header>
+    <div class="wrap header-inner">
+      <div class="brand">
+        <div class="brand-title">SUUMO</div>
+        <div class="brand-sub">숨어있는 공간을 빌리다, 수머</div>
+      </div>
 
-<section class="hero">
-  <h1>숨어있는 공간을 빌리다, <span>수머</span></h1>
-  <p>
-    숨어있는 공간을 발견하고,<br>
-    필요한 사람과 연결하고,<br>
-    공간 운영 노하우까지 나눕니다.
-  </p>
-  <a class="btn" href="#space">공간 찾기</a>
-  <a class="btn sub" href="#story">블로그 이야기 보기</a>
-</section>
-
-<section id="about">
-  <h2>수머가 하는 일</h2>
-  <div class="cards">
-    <div class="card">
-      <h3>숨은 공간 발견</h3>
-      <p>아직 알려지지 않은 유휴 공간과 특별한 공간을 소개합니다.</p>
+      <nav>
+        <a href="#about">수머 소개</a>
+        <a href="#space">공간 찾기</a>
+        <a href="#story">공간대여 이야기</a>
+        <a href="#case">공간 사례</a>
+        <a href="#contact">문의</a>
+      </nav>
     </div>
-    <div class="card">
-      <h3>공간대여 연결</h3>
-      <p>공간이 필요한 사람과 공간을 가진 사람을 연결합니다.</p>
+  </header>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">평범한 공간이 특별한 가능성이 되는 곳</div>
+        <h1>숨어있는 공간을 빌리다, <span>수머</span></h1>
+        <p>
+          숨은 공간을 발견하고,<br>
+          필요한 사람과 연결하고,<br>
+          공간 운영 노하우까지 나눕니다.
+        </p>
+        <div class="hero-buttons">
+          <a class="btn primary" href="#space">공간 찾기</a>
+          <a class="btn secondary" href="#story">블로그 이야기 보기</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="visual-content">
+          <div class="keyhole-box">
+            <div class="keyhole-top">
+              <div class="room-dot lamp-line"></div>
+              <div class="room-dot lamp-head"></div>
+            </div>
+            <div class="keyhole-bottom">
+              <div class="room-dot plant-pot"></div>
+              <div class="leaf leaf1"></div>
+              <div class="leaf leaf2"></div>
+              <div class="leaf leaf3"></div>
+            </div>
+          </div>
+          <div class="visual-kicker">HIDDEN SPACE</div>
+          <div class="visual-copy">보이지 않던 공간에,<br>새로운 이야기를</div>
+          <div class="visual-sub">숨은 공간을 발견하고 연결하는 플랫폼</div>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <h3>운영 노하우 공유</h3>
-      <p>공간대여업의 실제 운영 경험과 마케팅 이야기를 나눕니다.</p>
+  </section>
+
+  <section id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>수머가 하는 일</h2>
+        <p>숨겨진 공간의 가치를 발견하고, 더 많은 가능성으로 연결합니다.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <div class="icon">⌕</div>
+          <h3>숨은 공간 발견</h3>
+          <p>아직 알려지지 않은 유휴 공간과 특별한 공간을 찾아 소개합니다.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">⤳</div>
+          <h3>공간대여 연결</h3>
+          <p>공간이 필요한 사람과 공간을 가진 사람을 연결합니다.</p>
+        </div>
+
+        <div class="card">
+          <div class="icon">▥</div>
+          <h3>운영 노하우 공유</h3>
+          <p>공간대여업의 실제 운영 경험과 마케팅 이야기를 나눕니다.</p>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<section id="space">
-  <h2>공간 찾기</h2>
-  <div class="cards">
-    <div class="card"><h3>댄스연습실</h3><p>춤과 연습을 위한 공간</p></div>
-    <div class="card"><h3>촬영 스튜디오</h3><p>사진과 영상 촬영을 위한 공간</p></div>
-    <div class="card"><h3>모임·워크숍</h3><p>회의와 소규모 모임을 위한 공간</p></div>
-  </div>
-</section>
+  <section id="space" style="background:var(--bg);">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>공간 찾기</h2>
+        <p>다양한 목적의 공간을 수머에서 만나보세요.</p>
+      </div>
 
-<section id="story">
-  <h2>공간대여 이야기</h2>
-  <div class="cards">
-    <div class="card"><h3>공간대여 기초</h3><p>처음 시작하는 사람을 위한 기본 이야기</p></div>
-    <div class="card"><h3>공간대여 실전</h3><p>가격, 예약, 운영까지 실제 경험 정리</p></div>
-    <div class="card"><h3>공실상가 수익화</h3><p>비어 있는 상가를 활용하는 방법</p></div>
-  </div>
-</section>
+      <div class="grid-4">
+        <div class="category-card">
+          <div>
+            <div class="category-top"></div>
+            <h3>댄스연습실</h3>
+            <p>춤과 연습을 위한 공간</p>
+          </div>
+        </div>
 
-<section id="case">
-  <h2>운영 사례</h2>
-  <div class="card">
-    <h3>봄댄스스페이스</h3>
-    <p>
-      실제 공간 운영을 통해 얻은 경험과 시행착오를
-      수머의 첫 번째 공간 사례로 소개합니다.
-    </p>
-  </div>
-</section>
+        <div class="category-card">
+          <div>
+            <div class="category-top"></div>
+            <h3>촬영 스튜디오</h3>
+            <p>사진과 영상 촬영을 위한 공간</p>
+          </div>
+        </div>
 
-<section id="contact">
-  <h2>문의 / 공간 등록</h2>
-  <p>공간을 소개하고 싶거나, 수머와 연결하고 싶은 분은 연락해주세요.</p>
-</section>
+        <div class="category-card">
+          <div>
+            <div class="category-top"></div>
+            <h3>모임 · 워크숍</h3>
+            <p>회의와 소규모 모임을 위한 공간</p>
+          </div>
+        </div>
 
-<footer>
-  SUUMO.CO.KR · 숨어있는 공간을 빌리다, 수머
-</footer>
+        <div class="category-card">
+          <div>
+            <div class="category-top"></div>
+            <h3>공실상가 활용</h3>
+            <p>비어 있는 상가의 새로운 가능성</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="story">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>네이버 블로그 콘텐츠</h2>
+        <p>공간 비즈니스의 시작부터 운영, 마케팅까지 실전 노하우를 정리합니다.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="post-card">
+          <div class="post-thumb"></div>
+          <div class="post-body">
+            <h3>공간대여업 기초</h3>
+            <p>처음 시작하는 분들을 위한 기본 가이드</p>
+            <a class="more" href="#">더보기 →</a>
+          </div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-thumb"></div>
+          <div class="post-body">
+            <h3>공간대여업 실전</h3>
+            <p>가격, 예약, 운영까지 실무에서 필요한 팁</p>
+            <a class="more" href="#">더보기 →</a>
+          </div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-thumb"></div>
+          <div class="post-body">
+            <h3>공간대여업 마케팅</h3>
+            <p>사람들이 찾는 공간이 되는 홍보 전략</p>
+            <a class="more" href="#">더보기 →</a>
+          </div>
+        </div>
+
+        <div class="post-card">
+          <div class="post-thumb"></div>
+          <div class="post-body">
+            <h3>공실상가 수익화</h3>
+            <p>비어 있는 상가를 수익형 공간으로 바꾸는 방법</p>
+            <a class="more" href="#">더보기 →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="case" style="background:var(--bg);">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>운영 사례</h2>
+        <p>평범했던 공간이 특별한 가능성이 된 실제 사례를 소개합니다.</p>
+      </div>
+
+      <div class="case-box">
+        <div class="case-image"></div>
+        <div class="case-text">
+          <div class="label">운영 사례</div>
+          <h3>봄댄스스페이스</h3>
+          <p>
+            비어 있던 공간이 지역의 댄스 연습실로 다시 태어난 실제 운영 사례입니다.
+            수머가 추구하는 “숨은 공간의 발견과 연결”을 가장 잘 보여주는 첫 번째 사례입니다.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>공간 운영자를 위한 안내</h2>
+        <p>지금, 당신의 공간도 새로운 가능성을 만날 수 있습니다.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">STEP 01</div>
+          <h3>공간 소개 등록</h3>
+          <p>보유한 공간의 기본 정보와 특징을 간단히 정리합니다.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">STEP 02</div>
+          <h3>상담 및 검토</h3>
+          <p>공간의 특성과 활용 가능성을 함께 검토합니다.</p>
+        </div>
+
+        <div class="step">
+          <div class="step-num">STEP 03</div>
+          <h3>공개 및 연결</h3>
+          <p>필요한 사람과 공간이 만날 수 있도록 연결합니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div>
+        <div class="footer-brand">SUUMO</div>
+        <div class="footer-text">숨어있는 공간을 빌리다, 수머</div>
+        <div class="footer-text">SUUMO.CO.KR</div>
+      </div>
+
+      <div class="footer-links">
+        <a href="#about">수머 소개</a>
+        <a href="#story">블로그 콘텐츠</a>
+        <a href="#case">운영 사례</a>
+        <a href="#contact">문의하기</a>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>
