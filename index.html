@@ -671,11 +671,19 @@
     padding: 11px 20px !important;
   }
 
-  main h1 {
-    font-size: 38px !important;
-    line-height: 1.2 !important;
+  /* 모바일 큰 제목 수정 */
+@media (max-width: 768px) {
+
+  h1,
+  .hero h1,
+  .hero-title {
+    font-size: 34px !important;
+    line-height: 1.25 !important;
+    letter-spacing: -1px !important;
     word-break: keep-all !important;
+    overflow-wrap: break-word !important;
   }
+
 }
     
   </style>
